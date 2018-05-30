@@ -310,7 +310,7 @@ void partialUpdateSolid(uint8_t x1, uint16_t y1, uint8_t x2, uint16_t y2, uint8_
 
   int i;
   int h;
-  writeCMD(0x13);
+  writeCMD(0x10);
   for (h = 0; h < y2 - y1; h++)
   {
     for (i = 0; i < (x2 - x1) / 8; i++)
@@ -359,7 +359,7 @@ void Load_Flash_Image_To_Display_RAM(uint16_t width_pixels,
   // the chip will start to send data/VCOM for panel.
   //  * In B/W mode, this command writes “NEW” data to SRAM.
   //  * In B/W/Red mode, this command writes “RED” data to SRAM.
-  SPI.transfer(0x13);
+  SPI.transfer(0x10);
   //Pump out the BW data.
   ePaper_DC_1;
   index = 0;
@@ -423,7 +423,7 @@ void show_BMPs_in_root(void)
           Serial.println("made it");
 
 
-          writeCMD(0x13);
+          writeCMD(0x10);
           //Jump over BMP header
           bmp_file.seek(54);
           //grab one row of pixels from the SD card at a time
@@ -517,7 +517,7 @@ void send_pixels_BW(uint16_t byteCount, uint8_t *dataPtr)
 #define black 0
 #define yellow 0
 #define checkerboard 0
-#define partialUpdate 1
+#define partialUpdate 0
 #define showBMPs 0
 void loop()
 {
@@ -538,7 +538,7 @@ void loop()
 
 
   //start data transmission 2
-  writeCMD(0x13);
+  writeCMD(0x10);
   for (int i = 0; i < VRES*HRES/8; i++)
   {
     writeData(0xff);
@@ -556,7 +556,7 @@ void loop()
 
 
   //start data transmission 2
-  writeCMD(0x13);
+  writeCMD(0x10);
   for (int i = 0; i < VRES*HRES / 8; i++)
   {
     writeData(0x00);
@@ -572,7 +572,7 @@ void loop()
 #if checkerboard
   uint8_t color1 = 0x00;
 
-  writeCMD(0x13);
+  writeCMD(0x10);
   for (int i = 0; i < 300; i++)
   {
     if (i % 10 == 0)
